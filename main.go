@@ -32,7 +32,7 @@ import (
 	"context"
 
 	"cloud.google.com/go/logging"
-	"github.com/sirupsen/logrus"
+	"github.com/Sirupsen/logrus"
 )
 
 type Hook struct {
