@@ -1,5 +1,5 @@
 /*
-Package stackrus provides a hooks for logrus for both the asynchronous
+Package stackrus provides a Hooks for logrus for both the asynchronous
 and synchronous versions of the official Go client library for Stackdriver.
 
 An example:
@@ -35,7 +35,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type hook struct {
+type Hook struct {
 	client *logging.Client
 	logger *logging.Logger
 
@@ -43,8 +43,8 @@ type hook struct {
 	sync    bool
 }
 
-func initHook(sync bool, client *logging.Client, logID string, opts ...logging.LoggerOption) *hook {
-	h := &hook{client: client, sync: sync, syncCtx: context.Background()}
+func initHook(sync bool, client *logging.Client, logID string, opts ...logging.LoggerOption) *Hook {
+	h := &Hook{client: client, sync: sync, syncCtx: context.Background()}
 	h.logger = h.client.Logger(logID, opts...)
 	return h
 }
@@ -53,7 +53,7 @@ func initHook(sync bool, client *logging.Client, logID string, opts ...logging.L
 // relays logs to the Stackdriver API asynchronously. It is the client's
 // responsibility to call client.Close() so that buffered logs get
 // written before the end of the program!
-func New(client *logging.Client, logID string, opts ...logging.LoggerOption) *hook {
+func New(client *logging.Client, logID string, opts ...logging.LoggerOption) *Hook {
 	return initHook(false, client, logID, opts...)
 }
 
@@ -62,11 +62,11 @@ func New(client *logging.Client, logID string, opts ...logging.LoggerOption) *ho
 // typical use (see https://godoc.org/cloud.google.com/go/logging#hdr-Synchronous_Logging)
 // In order to use a non-background context for a LogSync entry, call SetSyncContext on the
 // returned hook.
-func NewSync(client *logging.Client, logID string, opts ...logging.LoggerOption) *hook {
+func NewSync(client *logging.Client, logID string, opts ...logging.LoggerOption) *Hook {
 	return initHook(true, client, logID, opts...)
 }
 
-func (h *hook) SetSyncContext(ctx context.Context) {
+func (h *Hook) SetSyncContext(ctx context.Context) {
 	h.syncCtx = ctx
 }
 
@@ -91,7 +91,7 @@ func mapLogrusToStackdriverLevel(l logrus.Level) logging.Severity {
 
 // Levels returns the logrus levels that this hook is applied to.
 // TODO: Allow configuration.
-func (h *hook) Levels() []logrus.Level {
+func (h *Hook) Levels() []logrus.Level {
 	return logrus.AllLevels
 }
 
@@ -102,7 +102,7 @@ func (h *hook) Levels() []logrus.Level {
 // Debug, Info, Warning, Error -> (same)
 // Fatal -> Critical
 // Panic -> Alert
-func (h *hook) Fire(e *logrus.Entry) error {
+func (h *Hook) Fire(e *logrus.Entry) error {
 	entry := logging.Entry{
 		Timestamp: e.Time,
 		Severity:  mapLogrusToStackdriverLevel(e.Level),
