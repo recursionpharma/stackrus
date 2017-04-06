@@ -1,0 +1,3 @@
+A Stackdriver hook for logrus (https://github.com/sirupsen/logrus) that internally uses the official Google API (https://godoc.org/cloud.google.com/go/logging).
+
+Provides hooks for both the asynchronous (default) and synchronous logging clients.
