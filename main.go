@@ -108,6 +108,7 @@ func (h *Hook) Fire(e *logrus.Entry) error {
 		Severity:  mapLogrusToStackdriverLevel(e.Level),
 		Payload:   e.Message,
 	}
+	entry.Labels = make(map[string]string)
 	for k, v := range e.Data {
 		vs, ok := v.(string)
 		if !ok {
