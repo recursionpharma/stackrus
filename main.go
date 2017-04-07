@@ -113,9 +113,9 @@ func (h *Hook) Fire(e *logrus.Entry) error {
 	for k, v := range e.Data {
 		switch t := v.(type) {
 		case string:
-			entry.Labels[k] = v
+			entry.Labels[k] = t
 		default:
-			entry.Labels[k] = fmt.Sprintf("%v", v)
+			entry.Labels[k] = fmt.Sprintf("%v", t)
 		}
 	}
 	if h.sync {
