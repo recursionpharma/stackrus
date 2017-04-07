@@ -30,6 +30,7 @@ package stackrus
 
 import (
 	"context"
+	"fmt"
 
 	"cloud.google.com/go/logging"
 	"github.com/Sirupsen/logrus"
@@ -110,11 +111,12 @@ func (h *Hook) Fire(e *logrus.Entry) error {
 	}
 	entry.Labels = make(map[string]string)
 	for k, v := range e.Data {
-		vs, ok := v.(string)
-		if !ok {
-			continue
+		switch t := v.(type) {
+		case string:
+			entry.Labels[k] = v
+		default:
+			entry.Labels[k] = fmt.Sprintf("%v", v)
 		}
-		entry.Labels[k] = vs
 	}
 	if h.sync {
 		return h.logger.LogSync(h.syncCtx, entry)
