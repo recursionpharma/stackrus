@@ -8,7 +8,7 @@ An example:
 	"context"
 
 	"cloud.google.com/go/logging"
-    log "github.com/Sirupsen/logrus"
+    log "github.com/sirupsen/logrus"
 	"github.com/recursionpharma/stackrus"
   )
   func main() {
