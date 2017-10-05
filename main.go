@@ -33,7 +33,7 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/logging"
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 type Hook struct {
