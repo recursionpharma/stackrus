@@ -8,7 +8,7 @@ An example:
 	"context"
 
 	"cloud.google.com/go/logging"
-    log "github.com/sirupsen/logrus"
+    log "github.com/Sirupsen/logrus"
 	"github.com/recursionpharma/stackrus"
   )
   func main() {
@@ -33,7 +33,7 @@ import (
 	"fmt"
 
 	"cloud.google.com/go/logging"
-	"github.com/sirupsen/logrus"
+	"github.com/Sirupsen/logrus"
 )
 
 type Hook struct {
